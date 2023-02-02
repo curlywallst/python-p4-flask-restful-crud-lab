@@ -29,7 +29,7 @@ function PlantPage() {
     <main>
       <NewPlantForm onAddPlant={handleAddPlant} />
       <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-      <PlantList plants={displayedPlants} />
+      <PlantList plants={displayedPlants} setPlants={setPlants} />
     </main>
   );
 }

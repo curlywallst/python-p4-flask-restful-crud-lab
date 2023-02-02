@@ -1,12 +1,27 @@
 import { useState } from "react";
 
-function PlantCard({ plant }) {
-  const { name, image, price } = plant;
+function PlantCard({ plant, editPlant }) {
+  const { id, name, image, price, is_in_stock } = plant;
 
-  const [isInStock, setIsInStock] = useState(true);
+  // const [isInStock, setIsInStock] = useState();
 
   function handleToggleStock() {
-    setIsInStock((isInStock) => !isInStock);
+    // setIsInStock((isInStock) => !isInStock);
+    fetch(`/plants/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        is_in_stock: !is_in_stock
+      }),
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      editPlant(data)
+      // setIsInStock((isInStock) => !isInStock);
+    })
   }
 
   return (
@@ -14,7 +29,7 @@ function PlantCard({ plant }) {
       <img src={image} alt={name} />
       <h4>{name}</h4>
       <p>Price: {price}</p>
-      {isInStock ? (
+      {is_in_stock ? (
         <button className="primary" onClick={handleToggleStock}>
           In Stock
         </button>
